@@ -10,7 +10,7 @@ const port = process.env.PORT || 4200;
 
 app.use(morgan('dev'));
 
-app.use('/', express.static(join(__dirname, '/')));
+app.use(express.static(join(__dirname, './')));
 
 const authConfig = {
   domain: 'mayhew3.auth0.com',
