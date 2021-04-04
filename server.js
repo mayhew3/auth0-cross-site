@@ -1,34 +1,43 @@
 const express = require('express');
 const morgan = require('morgan');
-const helmet = require('helmet');
 const { join } = require('path');
-const authConfig = require('./auth_config.json');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
 const app = express();
 
-const port = process.env.SERVER_PORT || 4200;
+const port = process.env.PORT || 4200;
 
 app.use(morgan('dev'));
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      // reportOnly: true,
-      directives: {
-        'default-src': ["'self'"],
-        'connect-src': ["'self'", 'https://*.auth0.com', authConfig.apiUri],
-        'frame-src': ["'self'", 'https://*.auth0.com'],
-        'base-uri': ["'self'"],
-        'block-all-mixed-content': [],
-        'font-src': ["'self'", 'https:', 'data:'],
-        'frame-ancestors': ["'self'"],
-        'img-src': ["'self'", 'data:', '*.gravatar.com'],
-        'style-src': ["'self'", 'https:', "'unsafe-inline'"],
-      },
-    },
-  })
-);
+app.use('/', express.static(join(__dirname, '/')));
 
-app.use(express.static(join(__dirname, 'dist')));
+const authConfig = {
+  domain: 'mayhew3.auth0.com',
+  audience: 'https://oscars.v2.mayhew3.com/'
+}
+
+if (!authConfig.domain || !authConfig.audience) {
+  throw 'Please make sure that auth_config.json is in place and populated';
+}
+
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
+  }),
+
+  audience: authConfig.audience,
+  issuer: `https://${authConfig.domain}/`,
+  algorithms: ['RS256'],
+});
+
+app.get('/api/external', checkJwt, (req, res) => {
+  res.send({
+    msg: 'Your access token was successfully validated!',
+  });
+});
 
 app.listen(port, () => console.log(`App server listening on port ${port}`));
