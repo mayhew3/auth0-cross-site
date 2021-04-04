@@ -14,7 +14,7 @@
     "prod": "npm-run-all --parallel server:app server:api",
     "postbuild": "npm run copy:server",
     "copy:server": "copyfiles server.js dist/login-demo",
-    "heroku-postbuild": "npm run copy:server && ng build"
+    "heroku-postbuild": "ng build && npm run copy:server"
   },
   "private": true,
   "dependencies": {
