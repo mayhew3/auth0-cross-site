@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import {AuthService} from '@auth0/auth0-angular';
+import {ApiService} from '../../api.service';
 
 @Component({
   selector: 'app-home-content',
@@ -9,8 +10,16 @@ import {AuthService} from '@auth0/auth0-angular';
 })
 export class HomeContentComponent implements OnInit {
   faLink = faLink;
+  responseJson: string;
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService,
+              public apiService: ApiService) {
+    this.apiService
+      .ping$()
+      .subscribe(
+        (res) => (this.responseJson = JSON.stringify(res, null, 2).trim())
+      );
+  }
 
   ngOnInit() {
   }
