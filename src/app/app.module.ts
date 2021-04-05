@@ -39,7 +39,14 @@ import { environment as env } from '../environments/environment';
     HighlightModule,
     FontAwesomeModule,
     AuthModule.forRoot({
-      ...env.auth,
+      domain: 'mayhew3.auth0.com',
+      clientId: 'Re282m5GM0575vOJjhpguBptT8slmIb0',
+      audience: 'https://oscars.v2.mayhew3.com/',
+      redirectUri: window.location.origin,
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage',
+      scope: 'offline_access',
+      leeway: 80,
       httpInterceptor: {
         ...env.httpInterceptor,
       },

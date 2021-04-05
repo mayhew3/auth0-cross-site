@@ -9,6 +9,10 @@ export const environment = {
     clientId: 'Re282m5GM0575vOJjhpguBptT8slmIb0',
     audience: 'https://oscars.v2.mayhew3.com/',
     redirectUri: window.location.origin,
+    useRefreshTokens: true,
+    cacheLocation: 'localstorage',
+    scope: 'offline_access',
+    leeway: 80
   },
   httpInterceptor: {
     allowedList: [`*`],
