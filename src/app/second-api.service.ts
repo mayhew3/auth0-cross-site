@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {FishApiService} from './fish-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ import {Observable} from 'rxjs';
 export class SecondApiService {
   result: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public fishApiService: FishApiService) {
     this.ping$().subscribe(result => this.result = result);
   }
 
