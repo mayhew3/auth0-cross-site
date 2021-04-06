@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import {AuthService} from '@auth0/auth0-angular';
 import {ApiService} from '../../api.service';
+import {SecondApiService} from '../../second-api.service';
+import {FishApiService} from '../../fish-api.service';
 
 @Component({
   selector: 'app-home-content',
@@ -13,7 +15,9 @@ export class HomeContentComponent implements OnInit {
   responseJson: string;
 
   constructor(public auth: AuthService,
-              public apiService: ApiService) {
+              public apiService: ApiService,
+              public secondApiService: SecondApiService,
+              public fishApiService: FishApiService) {
     this.apiService
       .ping$()
       .subscribe(

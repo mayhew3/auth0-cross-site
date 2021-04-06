@@ -40,4 +40,16 @@ app.get('/api/external', checkJwt, (req, res) => {
   });
 });
 
+app.get('/api/secondary', checkJwt, (req, res) => {
+  res.send({
+    msg: 'You hit a second API!',
+  });
+});
+
+app.get('/api/fish', checkJwt, (req, res) => {
+  res.send({
+    msg: 'You got fish!',
+  });
+});
+
 app.listen(port, () => console.log(`App server listening on port ${port}`));

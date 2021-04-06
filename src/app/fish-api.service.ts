@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ApiService {
+export class FishApiService {
   result: any;
 
   constructor(private http: HttpClient) {
@@ -13,6 +13,6 @@ export class ApiService {
   }
 
   ping$(): Observable<any> {
-    return this.http.get(`/api/external`);
+    return this.http.get(`/api/fish`);
   }
 }
